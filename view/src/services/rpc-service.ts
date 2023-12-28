@@ -1,6 +1,6 @@
 import * as electron from "electron";
-import { MessagePortRPCProtocol } from "../base/rpc/messageport-rpc-protocol";
-import { RPCService as BaseRPCService } from "../base/rpc/rpc-service";
+import { MessagePortRPCProtocol } from "@/base/rpc/messageport-rpc-protocol";
+import { RPCService as BaseRPCService } from "@/base/rpc/rpc-service";
 
 export class RPCService extends BaseRPCService {
   constructor() {
@@ -15,8 +15,10 @@ export class RPCService extends BaseRPCService {
     // 5. After the protocol is created, we will send a message through the protocol to request the exposed APIs.
     //    All this code should be in the protocol class.
 
+
     electron.ipcRenderer.on("response-port", (event, senderID) => {
       const port = event.ports[0];
+
       if (!this._protocols[senderID]) {
         const protocol = new MessagePortRPCProtocol(
           port,

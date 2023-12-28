@@ -1,5 +1,4 @@
-import { PLExtension } from "@/models/extension";
-import { PLAPI, PLExtAPI, PLMainAPI } from "paperlib";
+import { PLAPI, PLExtAPI, PLExtension, PLMainAPI } from "paperlib-api";
 import path from "path";
 
 class PaperlibPreviewExtension extends PLExtension {
@@ -7,11 +6,7 @@ class PaperlibPreviewExtension extends PLExtension {
 
   constructor() {
     super({
-      id: "paperlib-preview-extension",
-      name: "Paper Preview",
-      description:
-        "This extension is for Windows and Linux users to preview a paper in Paperlib",
-      author: "Paperlib",
+      id: "@future-scholars/paperlib-preview-extension",
       defaultPreference: {},
     });
 
@@ -52,7 +47,7 @@ class PaperlibPreviewExtension extends PLExtension {
     );
 
     try {
-      this._createPreviewWindow();
+      await this._createPreviewWindow();
     } catch (error) {
       PLAPI.logService.error(
         "Failed to create preview window",
@@ -64,7 +59,7 @@ class PaperlibPreviewExtension extends PLExtension {
 
     this.disposeCallbacks.push(
       PLMainAPI.windowProcessManagementService.on(
-        "paperlib-preview-extension-window",
+        "paperlib-preview-extension-window" as any,
         (newValues: { value: string }) => {
           if (newValues.value === "blur") {
             PLMainAPI.windowProcessManagementService.hide(
@@ -88,7 +83,8 @@ class PaperlibPreviewExtension extends PLExtension {
     for (const disposeCallback of this.disposeCallbacks) {
       disposeCallback();
     }
-    PLExtAPI.extensionPreferenceService.unregister(this.id);
+    await PLExtAPI.extensionPreferenceService.unregister(this.id);
+    await PLMainAPI.windowProcessManagementService.destroy("paperlib-preview-extension-window")
   }
 }
 

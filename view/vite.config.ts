@@ -16,7 +16,6 @@ export default defineConfig({
       input: {
         index: path.resolve(__dirname, "index.html"),
       },
-      external: [...builtinModules, "paperlib"],
     },
     outDir: "./dist/",
     target: "es2022",
@@ -37,11 +36,18 @@ export default defineConfig({
   plugins: [
     vue(),
     commonjs(),
-    renderer(),
+    renderer({
+    }),
     modify({
-      find: /import.*from "paperlib";?/,
+      find: /import\s*{\s*[\s\S]*}\s*from\s*"paperlib-api";?/,
       // find: /import { PLAPI } from "paperlib";/,
-      replace: (match, path) => "",
+      replace: (match, path) => {
+        const m = match
+          .replace(/PLAPI\s*,?\s*/g, "")
+          .replace(/PLExtAPI\s*,?\s*/g, "")
+          .replace(/PLMainAPI\s*,?\s*/g, "");
+        return m;
+      },
     }),
   ],
 });

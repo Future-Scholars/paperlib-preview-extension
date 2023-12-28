@@ -1,4 +1,4 @@
-import { PLAPI, PLMainAPI } from "paperlib";
+import { PLAPI, PLMainAPI, PaperEntity } from "paperlib-api";
 import * as pdfjs from "pdfjs-dist";
 
 export class PreviewService {
@@ -10,17 +10,22 @@ export class PreviewService {
   }
 
   async preview() {
-    const selectedPaperEntities = await PLAPI.uiStateService.getState(
+    const selectedPaperEntities = (await PLAPI.uiStateService.getState(
       "selectedPaperEntities"
-    );
+    )) as PaperEntity[];
+    console.log("Preview")
 
     if (selectedPaperEntities.length === 0) {
+      console.log("No paper selected")
       return;
     }
+
     const fileURL = await PLAPI.fileService.access(
       selectedPaperEntities[0].mainURL,
       true
     );
+
+    console.log("Preview", fileURL)
 
     if (this._renderingPage) {
       this._renderingPage.cleanup();

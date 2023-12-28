@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { PLAPI, PLMainAPI } from "paperlib";
-import { disposable } from "./base/dispose";
+import { PLAPI, PLMainAPI } from "paperlib-api";
+
+import { disposable } from "@/base/dispose";
 
 const registerKeydown = () => {
   window.addEventListener("keydown", (e) => {

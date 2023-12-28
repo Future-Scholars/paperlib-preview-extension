@@ -1,8 +1,8 @@
 import { createApp } from "vue";
-import { PreviewService } from "./services/preview-service";
 
 import AppView from "./app.vue";
 import { RPCService } from "./services/rpc-service";
+import { PreviewService } from "./services/preview-service";
 
 async function initialize() {
   const app = createApp(AppView);
@@ -24,6 +24,8 @@ async function initialize() {
 
   if (!mainAPIExposed) {
     throw new Error("Main process API is not exposed");
+  } else {
+    console.log("Main process API is exposed");
   }
 
   // 4. Wait for the renderer process to expose its APIs (PLRendererAPI)
@@ -35,6 +37,8 @@ async function initialize() {
 
   if (!rendererAPIExposed) {
     throw new Error("Renderer process API is not exposed");
+  } else {
+    console.log("Renderer process API is exposed");
   }
 
   const previewService = new PreviewService();
