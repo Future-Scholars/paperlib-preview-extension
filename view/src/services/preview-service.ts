@@ -1,22 +1,28 @@
-import { PLAPI, PLMainAPI, PaperEntity } from "paperlib-api";
-import * as pdfjs from "pdfjs-dist";
+import { PLAPI, PLMainAPI } from "paperlib-api/api";
+import { PaperEntity } from "paperlib-api/model";
+import {
+  PDFDocumentProxy,
+  PDFPageProxy,
+  GlobalWorkerOptions,
+  getDocument,
+} from "pdfjs-dist";
 
 export class PreviewService {
-  private _renderingPDF?: pdfjs.PDFDocumentProxy;
-  private _renderingPage?: pdfjs.PDFPageProxy;
+  private _renderingPDF?: PDFDocumentProxy;
+  private _renderingPage?: PDFPageProxy;
 
   constructor() {
-    pdfjs.GlobalWorkerOptions.workerSrc = "../pdf.worker.min.mjs";
+    GlobalWorkerOptions.workerSrc = "../pdf.worker.min.mjs";
   }
 
   async preview() {
     const selectedPaperEntities = (await PLAPI.uiStateService.getState(
       "selectedPaperEntities"
     )) as PaperEntity[];
-    console.log("Preview")
+    console.log("Preview");
 
     if (selectedPaperEntities.length === 0) {
-      console.log("No paper selected")
+      console.log("No paper selected");
       return;
     }
 
@@ -25,7 +31,7 @@ export class PreviewService {
       true
     );
 
-    console.log("Preview", fileURL)
+    console.log("Preview", fileURL);
 
     if (this._renderingPage) {
       this._renderingPage.cleanup();
@@ -33,7 +39,7 @@ export class PreviewService {
     if (this._renderingPDF) {
       this._renderingPDF.destroy();
     }
-    this._renderingPDF = await pdfjs.getDocument(fileURL).promise;
+    this._renderingPDF = await getDocument(fileURL).promise;
     this._renderingPage = await this._renderingPDF.getPage(1);
     const viewport = this._renderingPage.getViewport({ scale: 1.5 });
     const outputScale = window.devicePixelRatio || 1;

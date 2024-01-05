@@ -1,4 +1,4 @@
-import { PLAPI, PLExtAPI, PLExtension, PLMainAPI } from "paperlib-api";
+import { PLAPI, PLExtAPI, PLExtension, PLMainAPI } from "paperlib-api/api";
 import path from "path";
 
 class PaperlibPreviewExtension extends PLExtension {
@@ -83,8 +83,10 @@ class PaperlibPreviewExtension extends PLExtension {
     for (const disposeCallback of this.disposeCallbacks) {
       disposeCallback();
     }
-    await PLExtAPI.extensionPreferenceService.unregister(this.id);
-    await PLMainAPI.windowProcessManagementService.destroy("paperlib-preview-extension-window")
+    PLExtAPI.extensionPreferenceService.unregister(this.id);
+    await PLMainAPI.windowProcessManagementService.destroy(
+      "paperlib-preview-extension-window",
+    );
   }
 }
 

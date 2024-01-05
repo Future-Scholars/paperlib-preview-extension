@@ -1,7 +1,5 @@
 import renderer from "@future-scholars/vite-plugin-electron-renderer";
-import commonjs from "@rollup/plugin-commonjs";
 import vue from "@vitejs/plugin-vue";
-import { builtinModules } from "module";
 import path from "node:path";
 import modify from "rollup-plugin-modify";
 import { defineConfig } from "vite";
@@ -10,7 +8,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "./",
   build: {
-    minify: false,
+    minify: true,
     reportCompressedSize: true,
     rollupOptions: {
       input: {
@@ -23,7 +21,15 @@ export default defineConfig({
   },
   publicDir: "./view/public/",
 
+  optimizeDeps: {
+    esbuildOptions: {
+      target: "es2022",
+      tsconfig: "tsconfig.json",
+    },
+  },
+
   esbuild: {
+    target: "es2022",
     keepNames: true,
   },
 
@@ -35,11 +41,9 @@ export default defineConfig({
 
   plugins: [
     vue(),
-    commonjs(),
-    renderer({
-    }),
+    renderer({}),
     modify({
-      find: /import\s*{\s*[\s\S]*}\s*from\s*"paperlib-api";?/,
+      find: /import\s*{\s*[\s\S]*}\s*from\s*"paperlib-api?/,
       // find: /import { PLAPI } from "paperlib";/,
       replace: (match, path) => {
         const m = match

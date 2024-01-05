@@ -1,7 +1,9 @@
 import { createApp } from "vue";
 
 import AppView from "./app.vue";
-import { RPCService } from "./services/rpc-service";
+
+import { RendererRPCService } from "paperlib-api/rpc";
+
 import { PreviewService } from "./services/preview-service";
 
 async function initialize() {
@@ -9,7 +11,9 @@ async function initialize() {
 
   // ============================================================
   // 1. Initilize the RPC service for current process
-  const rpcService = new RPCService();
+  const rpcService = new RendererRPCService(
+    "paperlib-preview-extension-window"
+  );
   // ============================================================
   // 2. Start the port exchange process.
   await rpcService.initCommunication();
