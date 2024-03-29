@@ -4,6 +4,8 @@ import path from "path";
 class PaperlibPreviewExtension extends PLExtension {
   disposeCallbacks: (() => void)[];
 
+  private readonly windowId = "paperlib-preview-extension-window";
+
   constructor() {
     super({
       id: "@future-scholars/paperlib-preview-extension",
@@ -16,28 +18,25 @@ class PaperlibPreviewExtension extends PLExtension {
   private async _createPreviewWindow() {
     const screenSize =
       await PLMainAPI.windowProcessManagementService.getScreenSize();
-    await PLMainAPI.windowProcessManagementService.create(
-      "paperlib-preview-extension-window",
-      {
-        entry: path.resolve(__dirname, "./view/index.html"),
-        title: "Paper Preview",
-        width: Math.floor(screenSize.height * 0.8 * 0.75),
-        height: Math.floor(screenSize.height * 0.8),
-        minWidth: Math.floor(screenSize.height * 0.8 * 0.75),
-        minHeight: Math.floor(screenSize.height * 0.8),
-        useContentSize: true,
-        center: true,
-        resizable: false,
-        skipTaskbar: true,
-        webPreferences: {
-          webSecurity: false,
-          nodeIntegration: true,
-          contextIsolation: false,
-        },
-        frame: false,
-        show: false,
+    await PLMainAPI.windowProcessManagementService.create(this.windowId, {
+      entry: path.resolve(__dirname, "./view/index.html"),
+      title: "Paper Preview",
+      width: Math.floor(screenSize.height * 0.8 * 0.75),
+      height: Math.floor(screenSize.height * 0.8),
+      minWidth: Math.floor(screenSize.height * 0.8 * 0.75),
+      minHeight: Math.floor(screenSize.height * 0.8),
+      useContentSize: true,
+      center: true,
+      resizable: false,
+      skipTaskbar: true,
+      webPreferences: {
+        webSecurity: false,
+        nodeIntegration: true,
+        contextIsolation: false,
       },
-    );
+      frame: false,
+      show: false,
+    });
   }
 
   async initialize() {
@@ -59,12 +58,10 @@ class PaperlibPreviewExtension extends PLExtension {
 
     this.disposeCallbacks.push(
       PLMainAPI.windowProcessManagementService.on(
-        "paperlib-preview-extension-window" as any,
+        this.windowId as any,
         (newValues: { value: string }) => {
           if (newValues.value === "blur") {
-            PLMainAPI.windowProcessManagementService.hide(
-              "paperlib-preview-extension-window",
-            );
+            PLMainAPI.windowProcessManagementService.hide(this.windowId);
           }
         },
       ),
@@ -72,9 +69,16 @@ class PaperlibPreviewExtension extends PLExtension {
 
     this.disposeCallbacks.push(
       PLMainAPI.menuService.onClick("View-preview", async () => {
-        PLMainAPI.windowProcessManagementService.show(
-          "paperlib-preview-extension-window",
-        );
+        const isFocused =
+          //@ts-ignore
+          await PLMainAPI.windowProcessManagementService.isFocused(
+            this.windowId,
+          );
+        if (isFocused) {
+          PLMainAPI.windowProcessManagementService.hide(this.windowId);
+        } else {
+          PLMainAPI.windowProcessManagementService.show(this.windowId);
+        }
       }),
     );
   }
@@ -84,9 +88,7 @@ class PaperlibPreviewExtension extends PLExtension {
       disposeCallback();
     }
     PLExtAPI.extensionPreferenceService.unregister(this.id);
-    await PLMainAPI.windowProcessManagementService.destroy(
-      "paperlib-preview-extension-window",
-    );
+    await PLMainAPI.windowProcessManagementService.destroy(this.windowId);
   }
 }
 
