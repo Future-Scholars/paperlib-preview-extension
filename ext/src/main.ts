@@ -76,6 +76,9 @@ class PaperlibPreviewExtension extends PLExtension {
           );
         if (isFocused) {
           PLMainAPI.windowProcessManagementService.hide(this.windowId);
+          PLMainAPI.windowProcessManagementService.focus(
+            PLMainAPI.process.rendererProcess,
+          );
         } else {
           PLMainAPI.windowProcessManagementService.show(this.windowId);
         }
