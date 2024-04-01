@@ -1,4 +1,5 @@
 import { PLAPI, PLExtAPI, PLExtension, PLMainAPI } from "paperlib-api/api";
+import { processId } from "paperlib-api/utils";
 import path from "path";
 
 class PaperlibPreviewExtension extends PLExtension {
@@ -70,15 +71,12 @@ class PaperlibPreviewExtension extends PLExtension {
     this.disposeCallbacks.push(
       PLMainAPI.menuService.onClick("View-preview", async () => {
         const isFocused =
-          //@ts-ignore
           await PLMainAPI.windowProcessManagementService.isFocused(
             this.windowId,
           );
         if (isFocused) {
           PLMainAPI.windowProcessManagementService.hide(this.windowId);
-          PLMainAPI.windowProcessManagementService.focus(
-            PLMainAPI.process.rendererProcess,
-          );
+          PLMainAPI.windowProcessManagementService.focus(processId.renderer);
         } else {
           PLMainAPI.windowProcessManagementService.show(this.windowId);
         }

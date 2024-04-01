@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { PLAPI, PLMainAPI } from "paperlib-api";
 
 import { disposable } from "@/base/dispose";
+import { convertKeyboardEvent } from "paperlib-api/utils";
 
 const registerKeydown = () => {
   window.addEventListener("keydown", (e) => {
@@ -10,6 +11,7 @@ const registerKeydown = () => {
       previewService.close();
       disposeCallback?.();
     }
+    PLAPI.shortcutService.handle(convertKeyboardEvent(e));
   });
 };
 
@@ -33,14 +35,14 @@ disposable(
             isRenderering.value = true;
             await previewService.preview();
             isRenderering.value = false;
-          }
+          },
         );
       } else if (newValue.value === "blur") {
         previewService.close();
         disposeCallback?.();
       }
-    }
-  )
+    },
+  ),
 );
 
 onMounted(() => {
