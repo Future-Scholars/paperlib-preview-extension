@@ -24,8 +24,8 @@ devDependencies:
     specifier: ^6.0.2
     version: 6.0.2(postcss@8.4.38)
   paperlib-api:
-    specifier: ^0.1.5
-    version: 0.1.5(typescript@5.3.3)(vue@3.3.13)
+    specifier: ^0.1.7
+    version: 0.1.7(typescript@5.3.3)(vue@3.3.13)
   pdfjs-dist:
     specifier: ^4.0.269
     version: 4.0.269
@@ -590,8 +590,8 @@ packages:
       '@types/node': 20.10.5
     dev: true
 
-  /@types/node@18.19.26:
-    resolution: {integrity: sha512-+wiMJsIwLOYCvUqSdKTrfkS8mpTp+MPINe6+Np4TAGFWWRWiBQ5kSq9nZGCSPkzx9mvT+uEukzpX4MOSCydcvw==}
+  /@types/node@18.19.30:
+    resolution: {integrity: sha512-453z1zPuJLVDbyahaa1sSD5C2sht6ZpHp5rgJNs+H8YGqhluCXcuOUmBYsAo0Tos0cHySJ3lVUGbGgLlqIkpyg==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -1588,7 +1588,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 18.19.26
+      '@types/node': 18.19.30
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -2554,8 +2554,8 @@ packages:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
     dev: true
 
-  /node-abi@3.56.0:
-    resolution: {integrity: sha512-fZjdhDOeRcaS+rcpve7XuwHBmktS1nS1gzgghwKUQQ8nTy2FdSDr6ZT8k6YhvlJeHmmQMYiT/IH9hfco5zeW2Q==}
+  /node-abi@3.57.0:
+    resolution: {integrity: sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.6.0
@@ -2723,8 +2723,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /paperlib-api@0.1.5(typescript@5.3.3)(vue@3.3.13):
-    resolution: {integrity: sha512-BzAmaI6jyjqPk2prx1gz8CeCfX594azHbyLF24t6SUeUdPKi7EUFCFGWqaoBj7twroZlisDdETw5DzIShU51ig==}
+  /paperlib-api@0.1.7(typescript@5.3.3)(vue@3.3.13):
+    resolution: {integrity: sha512-Wkb0p20Mty/C7XWvUsOBPMqiQFmlhtP7TFJXSlM1PB+TpaX0LUDDOz/U0rblygW1luGZPLVtbXY2+HPTvWPhnA==}
     engines: {node: '>=18.16.1'}
     dependencies:
       citation-js: 0.6.4
@@ -2776,18 +2776,9 @@ packages:
       minipass: 7.0.4
     dev: true
 
-  /path2d-polyfill@2.1.1:
-    resolution: {integrity: sha512-4Rka5lN+rY/p0CdD8+E+BFv51lFaFvJOrlOhyQ+zjzyQrzyh3ozmxd1vVGGDdIbUFSBtIZLSnspxTgPT0iJhvA==}
-    engines: {node: '>=18'}
-    requiresBuild: true
-    dependencies:
-      path2d: 0.1.1
-    dev: true
-    optional: true
-
-  /path2d@0.1.1:
-    resolution: {integrity: sha512-/+S03c8AGsDYKKBtRDqieTJv2GlkMb0bWjnqOgtF6MkjdUQ9a8ARAtxWf9NgKLGm2+WQr6+/tqJdU8HNGsIDoA==}
-    engines: {node: '>=6'}
+  /path2d-polyfill@2.0.1:
+    resolution: {integrity: sha512-ad/3bsalbbWhmBo0D6FZ4RNMwsLsPpL6gnvhuSaU5Vm7b06Kr5ubSltQQ0T7YKsiJQO+g22zJ4dJKNTXIyOXtA==}
+    engines: {node: '>=8'}
     requiresBuild: true
     dev: true
     optional: true
@@ -2797,7 +2788,7 @@ packages:
     engines: {node: '>=18'}
     optionalDependencies:
       canvas: 2.11.2
-      path2d-polyfill: 2.1.1
+      path2d-polyfill: 2.0.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -3227,7 +3218,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.56.0
+      node-abi: 3.57.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
