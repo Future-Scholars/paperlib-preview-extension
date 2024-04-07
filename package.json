@@ -1,11 +1,11 @@
 {
   "name": "@future-scholars/paperlib-preview-extension",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "author": "Paperlib",
-  "description": "This extension is for Windows and Linux users to preview a paper in Paperlib",
+  "description": "This extension is for Windows and Linux users to preview a paper in Paperlib. PLease DON't INSTALL this if you are a macOS user.",
   "main": "dist/main.js",
   "type": "commonjs",
-  "manifest_version": "1.0.0",
+  "manifest_version": "0.1.7",
   "scripts": {
     "build": "npm run build-ext && npm run build-view",
     "build-ext": "tsc --noEmit --p ./ext/tsconfig.json && vite build --config ./ext/vite.config.ts",
