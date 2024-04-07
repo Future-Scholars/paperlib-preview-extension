@@ -21,7 +21,7 @@
     "@vitejs/plugin-vue": "^4.6.0",
     "autoprefixer": "^10.4.16",
     "cssnano": "^6.0.2",
-    "paperlib-api": "^0.0.14",
+    "paperlib-api": "^0.1.7",
     "pdfjs-dist": "^4.0.269",
     "prettier": "^3.1.1",
     "prettier-plugin-organize-imports": "^3.2.4",

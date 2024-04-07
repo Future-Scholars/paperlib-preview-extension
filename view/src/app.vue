@@ -3,12 +3,21 @@ import { onMounted, ref } from "vue";
 import { PLAPI, PLMainAPI } from "paperlib-api";
 
 import { disposable } from "@/base/dispose";
+import { convertKeyboardEvent, formatShortcut } from "paperlib-api/utils";
+
+const proxyShortcuts = ref(["ArrowUp", "ArrowDown"]);
 
 const registerKeydown = () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       previewService.close();
       disposeCallback?.();
+    }
+    const shortcutEvent = convertKeyboardEvent(e);
+    if (
+      proxyShortcuts.value.includes(formatShortcut(shortcutEvent).join("+"))
+    ) {
+      PLAPI.shortcutService.handle(shortcutEvent);
     }
   });
 };
@@ -33,18 +42,22 @@ disposable(
             isRenderering.value = true;
             await previewService.preview();
             isRenderering.value = false;
-          }
+          },
         );
       } else if (newValue.value === "blur") {
         previewService.close();
         disposeCallback?.();
       }
-    }
-  )
+    },
+  ),
 );
 
-onMounted(() => {
+onMounted(async () => {
   registerKeydown();
+  const shortcutPreview = await PLAPI.preferenceService.get("shortcutPreview");
+  if (shortcutPreview) {
+    proxyShortcuts.value = [...proxyShortcuts.value, shortcutPreview as string];
+  }
 });
 </script>
 
